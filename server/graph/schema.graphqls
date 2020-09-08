@@ -1,0 +1,38 @@
+
+scalar DateTime
+
+type User {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  id: String!
+  hashedPassword: String!
+  email: String!
+}
+
+type Post {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  id: String!
+  title: String!
+  subtitle: String
+  content: String!
+  slug: String!
+  author: User!
+}
+
+type AuthPayload {
+  token: String!
+  userID: String!
+}
+
+type Query {
+  getAllPosts: [Post!]!
+  getPostByID(id: String!): Post!
+  getUser(username: String!): User!
+}
+
+type Mutation {
+  login(username: String!, password: String!): AuthPayload!
+  insertUser(username: String!, password1: String!, password2: String!, email: String!): AuthPayload!
+  insertPost(title: String!, subtitle: String, content: String!, authorID: ID!): Post
+}
