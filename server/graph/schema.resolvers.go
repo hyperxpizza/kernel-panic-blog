@@ -111,6 +111,12 @@ func (r *mutationResolver) InsertPost(ctx context.Context, title string, subtitl
 }
 
 func (r *queryResolver) GetAllPosts(ctx context.Context) ([]*model.Post, error) {
+	//posts, err := database.GetAllPosts()
+	//if err != nil {
+	//	return nil, fmt.Errorf("error")
+	//}
+
+	//return &posts, nil
 	panic(fmt.Errorf("not implemented"))
 }
 

@@ -10,7 +10,7 @@ import (
 
 func CheckIfUsernameExists(username string) bool {
 
-	err := databaseInstance.QueryRow(`SELECT username FROM users WHERE username = $1`, username).Scan(&username)
+	err := db.QueryRow(`SELECT username FROM users WHERE username = $1`, username).Scan(&username)
 	switch {
 	case err == sql.ErrNoRows:
 		return false
@@ -25,7 +25,7 @@ func CheckIfUsernameExists(username string) bool {
 
 func GetUsersPassword(username string) string {
 	var password string
-	err := databaseInstance.QueryRow("SELECT hashedPassword FROM users WHERE username = $1", username).Scan(&password)
+	err := db.QueryRow("SELECT hashedPassword FROM users WHERE username = $1", username).Scan(&password)
 	switch {
 	case err == sql.ErrNoRows:
 		log.Fatal(err)
@@ -40,13 +40,13 @@ func GetUsersPassword(username string) string {
 
 func GetUsersID(username string) uuid.UUID {
 	var id uuid.UUID
-	_ = databaseInstance.QueryRow(`SELECT id FROM users WHERE username = $1`, username).Scan(&id)
+	_ = db.QueryRow(`SELECT id FROM users WHERE username = $1`, username).Scan(&id)
 
 	return id
 }
 
 func CheckIfEmailTaken(email string) bool {
-	err := databaseInstance.QueryRow(`SELECT email FROM users WHERE email = $1`, email).Scan(&email)
+	err := db.QueryRow(`SELECT email FROM users WHERE email = $1`, email).Scan(&email)
 	switch {
 	case err == sql.ErrNoRows:
 		return false
@@ -60,7 +60,7 @@ func CheckIfEmailTaken(email string) bool {
 }
 
 func InsertUser(username, password, email string) error {
-	stmt, err := databaseInstance.Prepare(`INSERT INTO users VALUES($1, $2, $3, $4, $5, $6)`)
+	stmt, err := db.Prepare(`INSERT INTO users VALUES($1, $2, $3, $4, $5, $6)`)
 	if err != nil {
 		log.Fatal(err)
 		return err
