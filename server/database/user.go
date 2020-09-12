@@ -8,6 +8,15 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+type User struct {
+	CreatedAt      time.Time `json:"created_at"`
+	UpdatedAt      time.Time `json:"updated_at"`
+	ID             uuid.UUID `json:"id"`
+	Username       string    `json:"username"`
+	HashedPassword string    `json:"hashed_password"`
+	Email          string    `json:"email"`
+}
+
 func CheckIfUsernameExists(username string) bool {
 
 	err := db.QueryRow(`SELECT username FROM users WHERE username = $1`, username).Scan(&username)
@@ -60,13 +69,21 @@ func CheckIfEmailTaken(email string) bool {
 }
 
 func InsertUser(username, password, email string) error {
-	stmt, err := db.Prepare(`INSERT INTO users VALUES($1, $2, $3, $4, $5, $6)`)
+	stmt, err := db.Prepare(`INSERT INTO users VALUES($1, $2, $3, $4, $5, $6, $7)`)
 	if err != nil {
 		log.Fatal(err)
 		return err
 	}
 
-	_, err = stmt.Exec(time.Now(), time.Now(), uuid.Must(uuid.NewV1()), username, password, email)
+	var role string
+
+	if username == "hyperxpizza" {
+		role = "admin"
+	} else {
+		role = "user"
+	}
+
+	_, err = stmt.Exec(time.Now(), time.Now(), uuid.Must(uuid.NewV1()), username, password, email, role)
 	if err != nil {
 		log.Fatal(err)
 		return err

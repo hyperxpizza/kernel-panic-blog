@@ -1,7 +1,20 @@
+package handlers
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/goware/emailx"
+	"github.com/hyperxpizza/kernel-panic-blog/server/database"
+	"github.com/hyperxpizza/kernel-panic-blog/server/middleware"
+	"golang.org/x/crypto/bcrypt"
+)
+
 type RegisterData struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
+	Username  string `json:"username"`
+	Password1 string `json:"password1"`
+	Password2 string `json:"password2"`
+	Email     string `json:"email"`
 }
 
 type LoginData struct {
@@ -58,8 +71,16 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	//Check if passwords match
+	if registerData.Password1 != registerData.Password2 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Passwords do not match",
+		})
+		return
+	}
+
 	//Create password hash
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(registerData.Password), 10)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(registerData.Password1), 10)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Error while hashing the password",
@@ -68,10 +89,10 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	registerData.Password = string(hashedPassword)
+	registerData.Password1 = string(hashedPassword)
 
 	// Insert into the database
-	err = database.InsertUser(registerData.Username, registerData.Password, registerData.Email)
+	err = database.InsertUser(registerData.Username, registerData.Password1, registerData.Email)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "Error while inserting user into the database",
@@ -112,7 +133,7 @@ func Login(c *gin.Context) {
 	err := bcrypt.CompareHashAndPassword([]byte(passwordToCheck), []byte(loginData.Password))
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Passwords do not match",
+			"message": "Invalid Password",
 		})
 		return
 	}
@@ -128,4 +149,15 @@ func Login(c *gin.Context) {
 
 		return
 	}
+
+	c.JSON(http.StatusBadRequest, gin.H{
+		"message": "error",
+	})
+}
+
+func GetAllUsers(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "not implemented",
+	})
+
 }
