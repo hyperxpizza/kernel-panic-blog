@@ -46,7 +46,13 @@ func main() {
 	protected := router.Group("/protected")
 	protected.Use(middleware.AuthMiddleware())
 	{
+		// users
 		protected.GET("/users", handlers.GetAllUsers)
+
+		//posts
+		protected.POST("/create/post", handlers.CreatePost)
+		protected.POST("/update/post/:id", handlers.UpdatePost)
+		protected.POST("/delete/post/:id", handlers.DeletePost)
 	}
 
 	router.Run(port)
