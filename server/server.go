@@ -11,7 +11,23 @@ import (
 
 func main() {
 
-	database.InitDB()
+	user := os.Getenv("POSTGRES_USER")
+	password := os.Getenv("POSTGRES_PASSWORD")
+	dbname := os.Getenv("POSTGRES_DBNAME")
+
+	if user == "" {
+		user = "kernelpanicuser"
+	}
+
+	if password == "" {
+		password = "testkernel"
+	}
+
+	if dbname == "" {
+		dbname = "kernelpanicblog"
+	}
+
+	database.InitDB(user, password, dbname)
 
 	//Get port from .env file
 	port := os.Getenv("SERVER_PORT")

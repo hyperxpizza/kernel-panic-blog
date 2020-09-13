@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
 
 	//Postgresql driver
 	_ "github.com/lib/pq"
@@ -17,14 +16,13 @@ const (
 	port = 5432
 )
 
-func InitDB() {
-	user := os.Getenv("POSTGRES_USER")
-	password := os.Getenv("POSTGRES_PASSWORD")
-	dbname := os.Getenv("POSTGRES_DBNAME")
+func InitDB(user, password, dbname string) {
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
+
+	log.Println(psqlInfo)
 
 	database, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
