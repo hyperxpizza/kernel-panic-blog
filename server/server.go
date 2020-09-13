@@ -40,7 +40,8 @@ func main() {
 	//unprotected routes
 	router.POST("/login", handlers.Login)
 	router.POST("/register", handlers.Register)
-	//router.GET("/api/posts", handlers.GetAllPosts)
+	router.GET("/posts", handlers.GetAllPosts)
+	router.GET("/post/:id", handlers.GetPostByID)
 
 	//protected routes
 	protected := router.Group("/protected")
