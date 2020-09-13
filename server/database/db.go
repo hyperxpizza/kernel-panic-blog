@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	//Postgresql driver
 	_ "github.com/lib/pq"
@@ -12,14 +13,15 @@ import (
 var db *sql.DB
 
 const (
-	host     = "localhost"
-	port     = 5432
-	user     = "pizza"
-	password = "Wojtekfoka1"
-	dbname   = "kernelpanicblog"
+	host = "localhost"
+	port = 5432
 )
 
 func InitDB() {
+	user := os.Getenv("POSTGRES_USER")
+	password := os.Getenv("POSTGRES_PASSWORD")
+	dbname := os.Getenv("POSTGRES_DBNAME")
+
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
