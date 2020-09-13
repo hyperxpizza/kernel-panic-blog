@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hyperxpizza/kernel-panic-blog/server/database"
 	"github.com/hyperxpizza/kernel-panic-blog/server/handlers"
@@ -37,6 +38,9 @@ func main() {
 
 	router := gin.Default()
 
+	//use default cors settings
+	router.Use(cors.Default())
+
 	//unprotected routes
 	router.POST("/login", handlers.Login)
 	router.POST("/register", handlers.Register)
@@ -53,7 +57,7 @@ func main() {
 		//posts
 		protected.POST("/create/post", handlers.CreatePost)
 		protected.POST("/update/post/:id", handlers.UpdatePost)
-		protected.POST("/delete/post/:id", handlers.DeletePost)
+		protected.DELETE("/delete/post/:id", handlers.DeletePost)
 	}
 
 	router.Run(port)
