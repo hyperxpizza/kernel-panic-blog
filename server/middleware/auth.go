@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -75,5 +76,36 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Set("user_id", userID)
 			c.Next()
 		}
+	}
+}
+
+func ExtractToken(c *gin.Context) string {
+	// Get token from the header
+	bearToken := c.Request.Header.Get("Authorization")
+
+	// Split Bearer and actual token
+	strArr := strings.Split(bearToken, " ")
+	if len(strArr) == 2 {
+		return strArr[1]
+	}
+
+	return ""
+}
+
+func ExtractClaims(tokenStr string) (jwt.MapClaims, bool) {
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		// check token signing method etc
+		return tokenSecret, nil
+	})
+
+	if err != nil {
+		return nil, false
+	}
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		return claims, true
+	} else {
+		log.Printf("Invalid JWT Token")
+		return nil, false
 	}
 }
