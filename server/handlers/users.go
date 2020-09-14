@@ -161,3 +161,13 @@ func GetAllUsers(c *gin.Context) {
 	})
 
 }
+
+func GetClaims(c *gin.Context) {
+	token := middleware.ExtractToken(c)
+	claims, result := middleware.ExtractClaims(token)
+
+	if result == true {
+		c.JSON(http.StatusOK, &claims)
+	}
+
+}

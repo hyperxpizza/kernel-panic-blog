@@ -45,17 +45,20 @@ func main() {
 	router.POST("/login", handlers.Login)
 	router.POST("/register", handlers.Register)
 	router.GET("/posts", handlers.GetAllPosts)
-	router.GET("/post/:id", handlers.GetPostByID)
+	router.GET("/post/:slug", handlers.GetPostByID)
 
 	//protected routes
 	protected := router.Group("/protected")
 	protected.Use(middleware.AuthMiddleware())
 	{
+		// test extracting claims
+		protected.GET("/claims", handlers.GetClaims)
+
 		// users
 		protected.GET("/users", handlers.GetAllUsers)
 
 		//posts
-		protected.POST("/create/post", handlers.CreatePost)
+		//protected.POST("/create/post", handlers.CreatePost)
 		protected.POST("/update/post/:id", handlers.UpdatePost)
 		protected.DELETE("/delete/post/:id", handlers.DeletePost)
 	}
