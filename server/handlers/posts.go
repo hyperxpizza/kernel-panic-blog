@@ -24,22 +24,26 @@ func GetPostByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Not implemented yet",
 	})
+	return
 }
 
 func CreatePost(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Not implemented yet",
 	})
+	return
 }
 
 func UpdatePost(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Not implemented yet",
 	})
+	return
 }
 
 func DeletePost(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Not implemented yet",
 	})
+	return
 }
