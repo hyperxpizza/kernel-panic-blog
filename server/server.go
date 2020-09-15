@@ -45,7 +45,7 @@ func main() {
 	router.POST("/login", handlers.Login)
 	router.POST("/register", handlers.Register)
 	router.GET("/posts", handlers.GetAllPosts)
-	router.GET("/post/:slug", handlers.GetPostByID)
+	router.GET("/post/:id", handlers.GetPostBySlug)
 
 	//protected routes
 	protected := router.Group("/protected")
@@ -58,7 +58,7 @@ func main() {
 		protected.GET("/users", handlers.GetAllUsers)
 
 		//posts
-		//protected.POST("/create/post", handlers.CreatePost)
+		protected.POST("/create/post", handlers.CreatePost)
 		protected.POST("/update/post/:id", handlers.UpdatePost)
 		protected.DELETE("/delete/post/:id", handlers.DeletePost)
 	}

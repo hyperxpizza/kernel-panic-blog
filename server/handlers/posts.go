@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gofrs/uuid"
 	"github.com/gosimple/slug"
 	"github.com/hyperxpizza/kernel-panic-blog/server/database"
 	"github.com/hyperxpizza/kernel-panic-blog/server/middleware"
@@ -29,7 +30,7 @@ func GetAllPosts(c *gin.Context) {
 	c.JSON(http.StatusOK, &posts)
 }
 
-func GetPostByID(c *gin.Context) {
+func GetPostBySlug(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Not implemented yet",
 	})
@@ -37,6 +38,22 @@ func GetPostByID(c *gin.Context) {
 }
 
 func CreatePost(c *gin.Context) {
+	var newPost NewPost
+
+	//Parse json into NewPost struct
+	if err := c.ShouldBindJSON(&newPost); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	//TODO: add regex validation
+
+	// Create slug
+	postSlug := slug.Make(newPost.Title)
+
 	//Extact token from request header
 	token := middleware.ExtractToken(c)
 	if token == "" {
@@ -54,24 +71,29 @@ func CreatePost(c *gin.Context) {
 		})
 	}
 
-	userID := fmt.Sprintf("%v", claims["user_id"])
-
-	var post NewPost
-
-	//Parse json into NewPost struct
-	if err := c.ShouldBindJSON(&post); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
+	// convert user's id from string to uuid type
+	userIDString := fmt.Sprintf("%v", claims["user_id"])
+	userID, err := uuid.FromString(userIDString)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
 		})
 
 		return
 	}
 
-	// Create slug
-	postSlug := slug.Make(post.Title)
-
 	// Insert into the database
-	//err := database.InsertPost(post.Title, post.Subtitle, post.Content, postSlug, userID)
+	post, err := database.InsertPost(newPost.Title, newPost.Subtitle, newPost.Content, postSlug, userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, &post)
+	return
 
 }
 
