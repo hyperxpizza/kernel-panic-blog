@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"log"
 	"time"
 
@@ -67,4 +68,40 @@ func GetAllPosts() ([]Post, error) {
 
 	return posts, nil
 
+}
+
+func CheckIfSlugExists(slug string) bool {
+	err := db.QueryRow(`SELECT slug FROM posts WHERE slug = $1`, slug).Scan(&slug)
+	switch {
+	case err == sql.ErrNoRows:
+		return false
+	case err != nil:
+		log.Fatal(err)
+	default:
+		return true
+	}
+
+	return true
+}
+
+func CheckIfPostExists(postID uuid.UUID) bool {
+
+	err := db.QueryRow(`SELECT post_id FROM posts WHERE post_id = $1 `, postID).Scan(&postID)
+	switch {
+	case err == sql.ErrNoRows:
+		return false
+	case err != nil:
+		log.Fatal(err)
+	default:
+		return true
+	}
+
+	return true
+}
+
+func DeletePostByID(postID uuid.UUID) (bool, error) {
+	stmt, err := db.Prepare(`DELETE FROM posts WHERE post_id = $1`)
+	if err != nil {
+		return false, err
+	}
 }
