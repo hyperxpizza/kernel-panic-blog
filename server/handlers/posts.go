@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -49,10 +50,13 @@ func CreatePost(c *gin.Context) {
 		return
 	}
 
-	//TODO: add regex validation
-
 	// Create slug
 	postSlug := slug.Make(newPost.Title)
+
+	// Check if slug already exists in the database
+	if database.CheckIfSlugExists(postSlug) == true {
+
+	}
 
 	//Extact token from request header
 	token := middleware.ExtractToken(c)
@@ -105,8 +109,37 @@ func UpdatePost(c *gin.Context) {
 }
 
 func DeletePost(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Not implemented yet",
-	})
-	return
+	id := c.Param("id")
+
+	// Convert id from string to uuid type
+	postID, err := uuid.FromString(id)
+	if err != nil {
+		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Error while converting string to uuid",
+		})
+
+		return
+	}
+
+	//Check if post exists at all
+	postExists := database.CheckIfPostExists(postID)
+	if postExists == true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Post with given id does not exits",
+		})
+
+		return
+	}
+
+	// Delete the post
+	deleted, err := database.DeletePostByID(postID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+
+		return
+	}
+
 }
