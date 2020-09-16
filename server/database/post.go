@@ -9,35 +9,37 @@ import (
 )
 
 type Post struct {
-	ID        uuid.UUID `json:"id"`
-	Title     string    `json:"title"`
-	Subtitle  string    `json:"subtitle"`
-	Content   string    `json:"content"`
-	Slug      string    `json:"slug"`
-	AuthorID  uuid.UUID `json:"author_id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID          uuid.UUID `json:"id"`
+	Title       string    `json:"title"`
+	Subtitle    string    `json:"subtitle"`
+	Content     string    `json:"content"`
+	Slug        string    `json:"slug"`
+	LangVersion string    `json:"lang"`
+	AuthorID    uuid.UUID `json:"author_id"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-func InsertPost(title, subtitle, content, slug string, authorID uuid.UUID) (*Post, error) {
+func InsertPost(title, subtitle, content, slug, langVersion string, authorID uuid.UUID) (*Post, error) {
 	post := Post{
-		ID:        uuid.Must(uuid.NewV1()),
-		Title:     title,
-		Subtitle:  subtitle,
-		Content:   content,
-		Slug:      slug,
-		AuthorID:  authorID,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		ID:          uuid.Must(uuid.NewV1()),
+		Title:       title,
+		Subtitle:    subtitle,
+		Content:     content,
+		Slug:        slug,
+		LangVersion: langVersion,
+		AuthorID:    authorID,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
 	}
 
-	stmt, err := db.Prepare(`INSERT INTO posts VALUES($1, $2, $3, $4, $5, $6, $7, $8)`)
+	stmt, err := db.Prepare(`INSERT INTO posts VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
-	_, err = stmt.Exec(post.CreatedAt, post.UpdatedAt, post.ID, post.Title, post.Subtitle, post.Content, post.Slug, post.AuthorID)
+	_, err = stmt.Exec(post.CreatedAt, post.UpdatedAt, post.ID, post.Title, post.Subtitle, post.Content, post.Slug, post.LangVersion, post.AuthorID)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err

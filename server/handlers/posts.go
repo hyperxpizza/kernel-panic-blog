@@ -13,9 +13,10 @@ import (
 )
 
 type NewPost struct {
-	Title    string `json:"title"`
-	Subtitle string `json:"subtitle"`
-	Content  string `json:"content"`
+	Title       string `json:"title"`
+	Subtitle    string `json:"subtitle"`
+	Content     string `json:"content"`
+	LangVersion string `json:"lang"`
 }
 
 func GetAllPosts(c *gin.Context) {
@@ -87,7 +88,7 @@ func CreatePost(c *gin.Context) {
 	}
 
 	// Insert into the database
-	post, err := database.InsertPost(newPost.Title, newPost.Subtitle, newPost.Content, postSlug, userID)
+	post, err := database.InsertPost(newPost.Title, newPost.Subtitle, newPost.Content, postSlug, newPost.LangVersion, userID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
