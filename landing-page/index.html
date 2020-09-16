@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kernel-panic.pl</title>
+
+    <!--Css-->
+    <link rel="stylesheet" href="static/css/styles.css">
+
+    <!--Facebook cards-->
+    <meta property="og:url" content="https://kernel-panic.pl" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="kernel-panic.pl" /> 
+    <meta property="og:image" content="https://kernel-panic.pl/static/img/kernel-panic.jpg" />
+    
+    <!--Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-178129685-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-178129685-1');
+    </script>
+
+</head>
+<body>
+    <div id="container">
+        <output></output>
+        <div id="input-line" class="input-line">
+            <div class="prompt"></div>
+            <div><input class="cmdline" autofocus></div>
+        </div>
+    </div>
+
+    <!--JavaScript-->
+    <script src="static/js/jquery-2.1.1.min.js"></script>
+    <script src="static/js/terminal.js"></script>
+    <script src="static/js/client.js"></script>
+
+    <div class="clock-container">
+        <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45"/>
+            <g>
+                <rect class="hour" x="47.5" y="12.5" width="5" height="40" rx="2.5" ry="2.55" />
+                <rect class="min" x="48.5" y="12.5" width="3" height="40" rx="2" ry="2"/>
+                <line class="sec" x1="50" y1="50" x2="50" y2="16" />
+            </g>
+        </svg>
+    </div>
+
+</body>
+</html>
