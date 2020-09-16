@@ -99,9 +99,6 @@ func CheckIfPostExists(postID uuid.UUID) bool {
 	return true
 }
 
-func DeletePostByID(postID uuid.UUID) (bool, error) {
-	stmt, err := db.Prepare(`DELETE FROM posts WHERE post_id = $1`)
-	if err != nil {
-		return false, err
-	}
+func DeletePostByID() {
+	log.Fatal("not imlemented")
 }

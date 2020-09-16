@@ -132,7 +132,7 @@ func DeletePost(c *gin.Context) {
 		return
 	}
 
-	// Delete the post
+	/* Delete the post
 	deleted, err := database.DeletePostByID(postID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -141,5 +141,5 @@ func DeletePost(c *gin.Context) {
 
 		return
 	}
-
+	*/
 }
