@@ -101,7 +101,7 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
 
       switch (input.value) {
         case 'cat README.md':
-          output('<div class="readme"># kernel-panic.pl<br>Coming soon<br>https://github.com/hyperxpizza<br>hyperxpizza2gmail.com</div>');
+          output('<div class="readme"># kernel-panic.pl<br>Coming soon<br><a href="https://github.com/hyperxpizza/kernel-panic-blog"> https://github.com/hyperxpizza/kernel-panic-blog</a><br>hyperxpizza2gmail.com</div>');
           break;
         case 'cat':
           output('<div><b>NAME</b><br><p style="padding-left: 5rem;">cat - concatenate files and print on the standard output</p><br><b>SYNOPSIS</b><br><p style="padding-left: 5rem;">cat [OPTION]... [FILE]...</p></div>');
