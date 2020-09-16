@@ -103,6 +103,9 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
         case 'cat README.md':
           output('<div class="readme"># kernel-panic.pl<br>Coming soon<br>https://github.com/hyperxpizza<br>hyperxpizza2gmail.com</div>');
           break;
+        case 'cat':
+          output('<div><b>NAME</b><br><p style="padding-left: 5rem;">cat - concatenate files and print on the standard output</p><br><b>SYNOPSIS</b><br><p style="padding-left: 5rem;">cat [OPTION]... [FILE]...</p></div>');
+          return
         case 'clear':
           output_.innerHTML = '';
           this.value = '';
@@ -134,6 +137,9 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
         case 'ifconfig':
           output('<div> eth1: flags=4163 UP,BROADCAST,RUNNING,MULTICAST  mtu 1500<br><div style="padding-left:5em;">inet 46.41.143.46  netmask 255.255.240.0  broadcast 46.41.143.255<br>inet6 fe80::8dd:cff:fe1a:1486  prefixlen 64  scopeid 0x20<link><br>ether 00:1c:42:64:ed:a2  txqueuelen 1000  (Ethernet)<br>RX packets 43741455  bytes 5474143689 (5.4 GB)<br>RX errors 0  dropped 427522  overruns 0  frame 0 <br>TX packets 368890  bytes 56717418 (56.7 MB)<br>TX errors 0  dropped 4 overruns 0  carrier 0  collisions 0</div></div><div>lo: flags=73 UP,LOOPBACK,RUNNING  mtu 65536<br><div style="padding-left: 5em";>inet 127.0.0.1  netmask 255.0.0.0 <br> inet6 ::1  prefixlen 128  scopeid 0x10 host <br>loop  txqueuelen 1000  (Local Loopback) <br>RX packets 578  bytes 215105 (215.1 KB) <br>RX errors 0  dropped 0  overruns 0  frame 0 <br>TX packets 578  bytes 215105 (215.1 KB) <br>TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0 <br></div></div>');
           break;
+        case './blog.sh':
+          output('<p>[+] Coming soon: kernel-panic.pl</p>');
+          return
         default:
           if (cmd) {
             output(cmd + ': command not found');
