@@ -140,10 +140,13 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
           break;
         case './blog.sh':
           output('<p>[+] Coming soon: kernel-panic.pl</p>');
-          return
+          break;
+        case 'blog.sh':
+          output('<p>bash: ./blog.sh: Permission denied</p>');
+          break;
         default:
-          if (cmd) {
-            output(cmd + ': command not found');
+          if (input.value) {
+            output(input.value + ': command not found');
           }
       };
 
