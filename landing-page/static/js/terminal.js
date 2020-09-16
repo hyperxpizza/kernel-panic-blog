@@ -11,7 +11,7 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
   var output_ = document.querySelector(outputContainer);
 
   const CMDS_ = [
-    'cat', 'clear', 'date', 'echo', 'help', 'uname', 'whoami', 'ls', 'ifconfig', 'pwd', 
+    'cat', 'clear', 'date', 'help', 'uname', 'whoami', 'ls', 'ifconfig', 'pwd', 
   ];
 
   const DIRS_ = [
@@ -113,9 +113,6 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
         case 'date':
           output( new Date() );
           break;
-        case 'echo':
-          output( args.join(' ') );
-          break;
         case 'help':
           output('<div class="ls-files">' + CMDS_.join('<br>') + '</div>');
           break;
@@ -124,18 +121,22 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
           break;
         case 'whoami':
           $.getJSON('http://ipinfo.io', function(data){
-            console.log(JSON.stringify(data));
             output('<p>ip: ' + data.ip + '<br>country: ' + data.country + '<br>region: ' + data.region + '<br>city: ' + data.city + '<br>location: ' + data.loc + '<br>timezone: ' + data.timezone + '</p>');
           });
           break;
         case 'ls':
           output('<div class="ls-files">' + DIRS_.join('<br>') + '</div>');
           break;
+        case 'ls -la':
+          output('<p>drwxrwxr-x  2 user user 4096 sep 16 16:37 . </p> <p>drwxrwxr-x  17 user user 4096 sep 16 16:37 .. </p> <p>drwxrwxr-x  1 user user 116 sep 16 16:37 README.md </p> <p>drwxrwxr-x  1 user user 39 sep 16 16:37 blog.sh </p>');
+          break;
         case 'pwd':
-          output('/');
+          output('/home/user');
           break;
         case 'ifconfig':
-          output('<div> eth1: flags=4163 UP,BROADCAST,RUNNING,MULTICAST  mtu 1500<br><div style="padding-left:5em;">inet 46.41.143.46  netmask 255.255.240.0  broadcast 46.41.143.255<br>inet6 fe80::8dd:cff:fe1a:1486  prefixlen 64  scopeid 0x20<link><br>ether 00:1c:42:64:ed:a2  txqueuelen 1000  (Ethernet)<br>RX packets 43741455  bytes 5474143689 (5.4 GB)<br>RX errors 0  dropped 427522  overruns 0  frame 0 <br>TX packets 368890  bytes 56717418 (56.7 MB)<br>TX errors 0  dropped 4 overruns 0  carrier 0  collisions 0</div></div><div>lo: flags=73 UP,LOOPBACK,RUNNING  mtu 65536<br><div style="padding-left: 5em";>inet 127.0.0.1  netmask 255.0.0.0 <br> inet6 ::1  prefixlen 128  scopeid 0x10 host <br>loop  txqueuelen 1000  (Local Loopback) <br>RX packets 578  bytes 215105 (215.1 KB) <br>RX errors 0  dropped 0  overruns 0  frame 0 <br>TX packets 578  bytes 215105 (215.1 KB) <br>TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0 <br></div></div>');
+          $.getJSON('http://ipinfo.io', function(data){
+            output('<div> eth1: flags=4163 UP,BROADCAST,RUNNING,MULTICAST  mtu 1500<br><div style="padding-left:5em;">inet' + data.ip + 'netmask 255.255.240.0  broadcast 46.41.143.255<br>inet6 fe80::8dd:cff:fe1a:1486  prefixlen 64  scopeid 0x20<link><br>ether 00:1c:42:64:ed:a2  txqueuelen 1000  (Ethernet)<br>RX packets 43741455  bytes 5474143689 (5.4 GB)<br>RX errors 0  dropped 427522  overruns 0  frame 0 <br>TX packets 368890  bytes 56717418 (56.7 MB)<br>TX errors 0  dropped 4 overruns 0  carrier 0  collisions 0</div></div><div>lo: flags=73 UP,LOOPBACK,RUNNING  mtu 65536<br><div style="padding-left: 5em";>inet 127.0.0.1  netmask 255.0.0.0 <br> inet6 ::1  prefixlen 128  scopeid 0x10 host <br>loop  txqueuelen 1000  (Local Loopback) <br>RX packets 578  bytes 215105 (215.1 KB) <br>RX errors 0  dropped 0  overruns 0  frame 0 <br>TX packets 578  bytes 215105 (215.1 KB) <br>TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0 <br></div></div>');
+          });
           break;
         case './blog.sh':
           output('<p>[+] Coming soon: kernel-panic.pl</p>');
