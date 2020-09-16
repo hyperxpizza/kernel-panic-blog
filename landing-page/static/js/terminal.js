@@ -120,7 +120,7 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
           output(navigator.appVersion);
           break;
         case 'whoami':
-          $.getJSON('http://ipinfo.io', function(data){
+          $.getJSON('https://ipinfo.io', function(data){
             output('<p>ip: ' + data.ip + '<br>country: ' + data.country + '<br>region: ' + data.region + '<br>city: ' + data.city + '<br>location: ' + data.loc + '<br>timezone: ' + data.timezone + '</p>');
           });
           break;
@@ -134,7 +134,7 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
           output('/home/user');
           break;
         case 'ifconfig':
-          $.getJSON('http://ipinfo.io', function(data){
+          $.getJSON('https://ipinfo.io', function(data){
             output('<div> eth1: flags=4163 UP,BROADCAST,RUNNING,MULTICAST  mtu 1500<br><div style="padding-left:5em;">inet' + data.ip + 'netmask 255.255.240.0  broadcast 46.41.143.255<br>inet6 fe80::8dd:cff:fe1a:1486  prefixlen 64  scopeid 0x20<link><br>ether 00:1c:42:64:ed:a2  txqueuelen 1000  (Ethernet)<br>RX packets 43741455  bytes 5474143689 (5.4 GB)<br>RX errors 0  dropped 427522  overruns 0  frame 0 <br>TX packets 368890  bytes 56717418 (56.7 MB)<br>TX errors 0  dropped 4 overruns 0  carrier 0  collisions 0</div></div><div>lo: flags=73 UP,LOOPBACK,RUNNING  mtu 65536<br><div style="padding-left: 5em";>inet 127.0.0.1  netmask 255.0.0.0 <br> inet6 ::1  prefixlen 128  scopeid 0x10 host <br>loop  txqueuelen 1000  (Local Loopback) <br>RX packets 578  bytes 215105 (215.1 KB) <br>RX errors 0  dropped 0  overruns 0  frame 0 <br>TX packets 578  bytes 215105 (215.1 KB) <br>TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0 <br></div></div>');
           });
           break;
