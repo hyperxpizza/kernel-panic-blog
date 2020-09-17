@@ -39,7 +39,7 @@ func InsertPost(title, subtitle, content, slug, langVersion string, authorID uui
 		return nil, err
 	}
 
-	_, err = stmt.Exec(post.CreatedAt, post.UpdatedAt, post.ID, post.Title, post.Subtitle, post.Content, post.Slug, post.LangVersion, post.AuthorID)
+	_, err = stmt.Exec(post.ID, post.Title, post.Subtitle, post.Content, post.Slug, post.LangVersion, post.AuthorID, post.CreatedAt, post.UpdatedAt)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err

@@ -83,7 +83,7 @@ func InsertUser(username, password, email string) error {
 		role = "user"
 	}
 
-	_, err = stmt.Exec(time.Now(), time.Now(), uuid.Must(uuid.NewV1()), username, password, email, role)
+	_, err = stmt.Exec(uuid.Must(uuid.NewV1()), username, password, email, role, time.Now(), time.Now())
 	if err != nil {
 		log.Fatal(err)
 		return err

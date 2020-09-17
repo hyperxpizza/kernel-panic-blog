@@ -144,3 +144,11 @@ func DeletePost(c *gin.Context) {
 	}
 	*/
 }
+
+func GetPostWithLang(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "not implemented",
+	})
+
+	return
+}
