@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import PostList from './Components/PostList';
-import PostListLoading from './Components/PostListLoading';
+import React from 'react';
+import { Router } from '@reach/router';
+import './App.css';
+
+//Routes
+import Home from './Pages/Home.jsx';
+import Contact from './Pages/Contact.jsx';
+import Home from './Pages/Home.jsx';
 
 
 function App() {
-  const ListLoading = PostListLoading(PostList);
-  const [appState, setAppState] = useState({
-    loading: false,
-    posts: null,
-  });
+  const navLinks = [
+    {
+      text: 'Contact',
+      path: '/contact',
+      icon: 'ion-ios-megaphone'
+    },
+    {
+      text: 'Blog',
+      path: '/blog',
+      icon: 'ion-ios=bonfire'
+    },
+    {
+      text: 'Portfolio',
+      path: '/portfolio',
+      icon: 'ion-ios-briefcase'
+    }
+  ]
 
-  useEffect(() => {
-    setAppState({ loading: true });
-    const apiUrl = `http://localhost:8888/posts`;
-    fetch(apiUrl)
-      .then((res) => res.json())
-      .then((posts) => {
-        setAppState({ loading: false, posts: posts });
-      });
-  }, [setAppState]);
+
   return (
-    <div className='App'>
-      <div className='container'>
-        <h1>My Posts</h1>
-      </div>
-      <div className='repo-container'>
-        <PostListLoading isLoading={appState.loading} repos={appState.posts} />
-      </div>
+    <div className="App">
+      <Router>
+
+      </Router>
     </div>
   );
 }
+
 export default App;
