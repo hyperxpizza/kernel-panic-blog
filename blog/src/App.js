@@ -5,7 +5,6 @@ import './App.css';
 //Routes
 import Home from './Pages/Home.jsx';
 import Contact from './Pages/Contact.jsx';
-import Home from './Pages/Home.jsx';
 
 
 function App() {
