@@ -56,7 +56,10 @@ func CreatePost(c *gin.Context) {
 
 	// Check if slug already exists in the database
 	if database.CheckIfSlugExists(postSlug) == true {
-
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Slug already exists",
+		})
+		return
 	}
 
 	//Extact token from request header
