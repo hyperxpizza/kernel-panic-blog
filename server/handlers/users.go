@@ -47,6 +47,7 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status": "Error while validating email",
 		})
+		return
 	}
 
 	//TODO: add username validation

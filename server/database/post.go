@@ -3,17 +3,12 @@ package database
 import (
 	"database/sql"
 
-	"github.com/hyperxpizza/kernel-panic-blog/server/graph/model"
 	"vitess.io/vitess/go/vt/log"
 )
 
 func GetAllPosts() ([]model.Post, error) {
 	var posts []model.Post
 	return posts, nil
-}
-
-func InsertPost() {
-
 }
 
 func CheckIfSlugExists(slug string) bool {
