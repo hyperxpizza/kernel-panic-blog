@@ -2,17 +2,29 @@ package database
 
 import (
 	"database/sql"
+	"log"
+	"time"
 
-	"vitess.io/vitess/go/vt/log"
+	"github.com/gofrs/uuid"
 )
 
-func GetAllPosts() ([]model.Post, error) {
-	var posts []model.Post
-	return posts, nil
+type Post struct {
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	ID        uuid.UUID `json:"id"`
+	Title     string    `json:"title"`
+	Subtitle  string    `json:"string"`
+	Content   string    `json:"content"`
+	Lang      string    `json:"lang"`
+	Author    User      `json:"author"`
 }
 
-func CheckIfSlugExists(slug string) bool {
-	err := db.QueryRow(`SELECT slug FROM posts WHERE slug = $1`, slug).Scan(&slug)
+func InsertPost() {
+	log.Println("not implemented yet")
+}
+
+func CheckIfPostExists(id uuid.UUID) bool {
+	err := db.QueryRow(`SELECT post_id FROM posts WHERE post_id = $1`, id).Scan(&id)
 	switch {
 	case err == sql.ErrNoRows:
 		return false
