@@ -1,12 +1,11 @@
-# get go image
-FROM golang:1.15-alpine
+FROM golang:latest
 
-WORKDIR /go/src/app
-COPY . .
+RUN mkdir /app
+ADD . /app
+WORKDIR /app
+RUN go build -o main .
 
-# get go modules
-RUN go get -d -v ./...
-RUN go install -v ./...
-
+EXPOSE 5432
 EXPOSE 8888
-CMD [ "server" ]
+
+CMD [ "/app/main" ]
