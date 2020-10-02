@@ -157,9 +157,15 @@ func Login(c *gin.Context) {
 }
 
 func GetAllUsers(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "not implemented",
-	})
+
+	users, err := database.GetAllUsers()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+	}
+
+	c.JSON(http.StatusOK, &users)
 
 }
 

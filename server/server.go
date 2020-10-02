@@ -45,7 +45,7 @@ func main() {
 	router.POST("/login", handlers.Login)
 	router.POST("/register", handlers.Register)
 	router.GET("/posts", handlers.GetAllPosts)
-	router.GET("/post/:lang/:id", handlers.GetPostBySlug)
+	router.GET("/post/:slug", handlers.GetPostBySlug)
 
 	//protected routes
 	protected := router.Group("/protected")

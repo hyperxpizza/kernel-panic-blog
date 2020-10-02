@@ -15,6 +15,7 @@ type User struct {
 	Username       string    `json:"username"`
 	HashedPassword string    `json:"hashed_password"`
 	Email          string    `json:"email"`
+	Role           string    `json:"role"`
 }
 
 func CheckIfUsernameExists(username string) bool {
@@ -90,4 +91,39 @@ func InsertUser(username, password, email string) error {
 	}
 
 	return nil
+}
+
+func GetAllUsers() (*[]User, error) {
+	var users []User
+
+	rows, err := db.Query(`SELECT * FROM users`)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var user User
+
+		err = rows.Scan(
+			&user.ID,
+			&user.Username,
+			&user.HashedPassword,
+			&user.Email,
+			&user.Role,
+			&user.CreatedAt,
+			&user.UpdatedAt,
+		)
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+
+		users = append(users, user)
+	}
+
+	return &users, nil
+
 }
