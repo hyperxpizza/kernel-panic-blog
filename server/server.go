@@ -42,9 +42,9 @@ func main() {
 	router.Use(cors.Default())
 
 	//unprotected routes
-	router.POST("/login", handlers.Login)
-	router.POST("/register", handlers.Register)
-	router.GET("/posts", handlers.GetAllPosts)
+	router.POST("/login", handlers.Login)       //works
+	router.POST("/register", handlers.Register) //works
+	router.GET("/posts", handlers.GetAllPosts)  //works
 	router.GET("/post/:slug", handlers.GetPostBySlug)
 
 	//protected routes
@@ -52,7 +52,7 @@ func main() {
 	protected.Use(middleware.AuthMiddleware())
 	{
 		// test extracting claims
-		protected.GET("/claims", handlers.GetClaims)
+		protected.GET("/claims", handlers.GetClaims) //works
 
 		// users
 		protected.GET("/users", handlers.GetAllUsers)

@@ -11,7 +11,7 @@ import (
 type Post struct {
 	ID        uuid.UUID `json:"id"`
 	Title     string    `json:"title"`
-	Subtitle  string    `json:"string"`
+	Subtitle  string    `json:"subtitle"`
 	Content   string    `json:"content"`
 	Slug      string    `json:"slug"`
 	Lang      string    `json:"lang"`
@@ -55,11 +55,11 @@ func CheckIfPostExists(id uuid.UUID) bool {
 		return false
 	case err != nil:
 		log.Fatal(err)
+		return false
 	default:
 		return true
 	}
 
-	return true
 }
 
 func GetAllPosts() ([]Post, error) {
@@ -67,6 +67,7 @@ func GetAllPosts() ([]Post, error) {
 
 	rows, err := db.Query("SELECT * FROM posts")
 	if err != nil {
+		log.Fatal(err)
 		return nil, err
 	}
 
@@ -74,8 +75,20 @@ func GetAllPosts() ([]Post, error) {
 
 	for rows.Next() {
 		var post Post
-		err = rows.Scan()
+		err = rows.Scan(
+			&post.ID,
+			&post.Title,
+			&post.Subtitle,
+			&post.Content,
+			&post.Slug,
+			&post.Lang,
+			&post.AuthorID,
+			&post.CreatedAt,
+			&post.UpdatedAt,
+		)
+
 		if err != nil {
+			log.Fatal(err)
 			return nil, err
 		}
 
@@ -93,9 +106,52 @@ func CheckIfSlugExists(slug string) bool {
 		return false
 	case err != nil:
 		log.Fatal(err)
+		return false
 	default:
 		return true
 	}
 
-	return true
+}
+
+func DeletePost(id uuid.UUID) error {
+
+	stmt, err := db.Prepare(`DELETE FROM posts WHERE post_id = $1`)
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func GetPostBySlug(slug string) (*Post, error) {
+	var post Post
+
+	err := db.QueryRow(`SELECT * FROM posts WHERE slug = $1`, slug).Scan(
+		&post.ID,
+		&post.Title,
+		&post.Subtitle,
+		&post.Content,
+		&post.Slug,
+		&post.Lang,
+		&post.AuthorID,
+		&post.CreatedAt,
+		&post.UpdatedAt,
+	)
+
+	switch {
+	case err == sql.ErrNoRows:
+		log.Fatal(err)
+		return nil, err
+	case err != nil:
+		log.Fatal(err)
+		return nil, err
+	default:
+		return &post, nil
+	}
+
 }

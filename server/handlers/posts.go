@@ -33,10 +33,19 @@ func GetAllPosts(c *gin.Context) {
 }
 
 func GetPostBySlug(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Not implemented yet",
-	})
-	return
+
+	slug := c.Param("slug")
+
+	// get post with given slug from the database
+	post, err := database.GetPostBySlug(slug)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &post)
 }
 
 func CreatePost(c *gin.Context) {
@@ -115,6 +124,8 @@ func UpdatePost(c *gin.Context) {
 func DeletePost(c *gin.Context) {
 	id := c.Param("id")
 
+	log.Printf("ID: %s\n", id)
+
 	// Convert id from string to uuid type
 	postID, err := uuid.FromString(id)
 	if err != nil {
@@ -128,7 +139,7 @@ func DeletePost(c *gin.Context) {
 
 	//Check if post exists at all
 	postExists := database.CheckIfPostExists(postID)
-	if postExists == true {
+	if postExists == false {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Post with given id does not exits",
 		})
@@ -136,8 +147,8 @@ func DeletePost(c *gin.Context) {
 		return
 	}
 
-	/* Delete the post
-	deleted, err := database.DeletePostByID(postID)
+	//Delete post
+	err = database.DeletePost(postID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
@@ -145,7 +156,10 @@ func DeletePost(c *gin.Context) {
 
 		return
 	}
-	*/
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "deleted",
+	})
 }
 
 func GetPostWithLang(c *gin.Context) {
