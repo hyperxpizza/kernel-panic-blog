@@ -46,6 +46,7 @@ func main() {
 	router.POST("/register", handlers.Register) //works
 	router.GET("/posts", handlers.GetAllPosts)  //works
 	router.GET("/post/:slug", handlers.GetPostBySlug)
+	router.POST("/comment/add", handlers.AddComment)
 
 	//protected routes
 	protected := router.Group("/protected")
