@@ -18,6 +18,7 @@ type Post struct {
 	AuthorID  uuid.UUID `json:"author"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+	Views     int       `json:"views"`
 }
 
 func InsertPost(title, subtitle, content, lang, slug string, id uuid.UUID) (*Post, error) {
@@ -31,15 +32,16 @@ func InsertPost(title, subtitle, content, lang, slug string, id uuid.UUID) (*Pos
 		Content:   content,
 		Slug:      slug,
 		AuthorID:  id,
+		Views:     1,
 	}
 
-	stmt, err := db.Prepare(`INSERT INTO posts VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`)
+	stmt, err := db.Prepare(`INSERT INTO posts VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
-	_, err = stmt.Exec(post.ID, post.Title, post.Subtitle, post.Content, post.Slug, post.Lang, post.AuthorID, post.CreatedAt, post.UpdatedAt)
+	_, err = stmt.Exec(post.ID, post.Title, post.Subtitle, post.Content, post.Slug, post.Lang, post.AuthorID, post.CreatedAt, post.UpdatedAt, post.Views)
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
@@ -85,6 +87,7 @@ func GetAllPosts() ([]Post, error) {
 			&post.AuthorID,
 			&post.CreatedAt,
 			&post.UpdatedAt,
+			&post.Views,
 		)
 
 		if err != nil {
@@ -141,6 +144,7 @@ func GetPostBySlug(slug string) (*Post, error) {
 		&post.AuthorID,
 		&post.CreatedAt,
 		&post.UpdatedAt,
+		&post.Views,
 	)
 
 	switch {

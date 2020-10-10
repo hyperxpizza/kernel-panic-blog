@@ -17,6 +17,7 @@ CREATE TABLE posts (
     slug TEXT NOT NULL,
     lang varchar(10) NOT NULL,
     authorID uuid NOT NULL,
+    views INTEGER NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     FOREIGN KEY (authorID) REFERENCES users (id)
