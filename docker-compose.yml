@@ -1,0 +1,12 @@
+version: '3'
+services: 
+    db:
+        build: ./server/database
+        volumes: 
+            - ./server/database
+        ports: 
+            - "5432"
+        environment: 
+            -POSTGRES_USER=pizza
+            -POSTGRES_PASSWORD=pizzapassword
+            

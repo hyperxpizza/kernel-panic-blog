@@ -159,3 +159,40 @@ func GetPostBySlug(slug string) (*Post, error) {
 	}
 
 }
+
+func Get5MostReadPosts() ([]Post, error) {
+	var posts []Post
+
+	rows, err := db.Query("SELECT * FROM posts ORDER BY views DESC LIMIT 5")
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var post Post
+		err = rows.Scan(
+			&post.ID,
+			&post.Title,
+			&post.Subtitle,
+			&post.Content,
+			&post.Slug,
+			&post.Lang,
+			&post.AuthorID,
+			&post.CreatedAt,
+			&post.UpdatedAt,
+			&post.Views,
+		)
+
+		if err != nil {
+			log.Fatal(err)
+			return nil, err
+		}
+
+		posts = append(posts, post)
+	}
+
+	return posts, nil
+}

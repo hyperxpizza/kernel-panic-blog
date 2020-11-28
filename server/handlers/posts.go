@@ -169,3 +169,15 @@ func GetPostWithLang(c *gin.Context) {
 
 	return
 }
+
+func MostRead5Posts(c *gin.Context) {
+	posts, err := database.Get5MostReadPosts()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "error while retrieving posts",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &posts)
+}
