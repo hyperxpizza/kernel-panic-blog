@@ -1,19 +1,13 @@
 <template>
-  <div>
-    <Navigation />
-    <Blog />
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
   </div>
 </template>
 
-<script>
-import Navigation from './components/Navigation.vue';
-import Blog from './components/Blog.vue'
+<style>
 
-export default {
-  name: 'app',
-  components: {
-    Navigation,
-    Blog,
-  },
-}
-</script>
+</style>
