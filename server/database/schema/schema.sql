@@ -26,9 +26,11 @@ CREATE TABLE posts (
 
 CREATE TABLE comments (
     id SERIAL PRIMARY KEY NOT NULL,
-    authorID INT,
     postID INT,
     content VARCHAR(1000),
     createdAt TIMESTAMP NOT NULL,
-    updatedAt TIMESTAMP NOT NULL
+    updatedAt TIMESTAMP NOT NULL,
+    CONSTRAINT fk_postID
+        FOREIGN KEY (postID)
+        REFERENCES posts(id)
 );
