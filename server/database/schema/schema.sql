@@ -1,34 +1,31 @@
+CREATE DATABASE kernelpanicblog;
+
 
 CREATE TABLE users (
-    id uuid PRIMARY KEY NOT NULL,
-    username varchar(30) NOT NULL,
-    hashedPassword varchar(255) NOT NULL,
-    email varchar(255) NOT NULL,
-    user_role varchar(15) NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    id SERIAL PRIMARY KEY NOT NULL,
+    username VARCHAR(30) NOT NULL,
+    passwordHash TEXT NOT NULL,
+    email TEXT NOT NULL,
+    isAdmin BOOLEAN NOT NULL,
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL
 );
 
 CREATE TABLE posts (
-    post_id uuid PRIMARY KEY NOT NULL,
+    id SERIAL PRIMARY KEY NOT NULL,
+    authorID INT REFERENCES users(id) UNIQUE (authorID),
     title TEXT NOT NULL,
-    subtitle TEXT NOT NULL,
+    subtitle TEXT,
     content TEXT NOT NULL,
-    slug TEXT NOT NULL,
-    lang varchar(10) NOT NULL,
-    authorID uuid NOT NULL,
-    views INTEGER NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (authorID) REFERENCES users (id)
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL
 );
 
 CREATE TABLE comments (
-    comment_id uuid PRIMARY KEY NOT NULL,
-    comment_title VARCHAR(255) NOT NULL,
-    comment_content TEXT NOT NULL,
-    postID uuid NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (postID) REFERENCES posts (post_id)
+    id SERIAL PRIMARY KEY NOT NULL,
+    authorID INT,
+    postID INT,
+    content VARCHAR(1000),
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL
 );

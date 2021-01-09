@@ -1,12 +1,29 @@
 version: '3'
 services: 
-    db:
-        build: ./server/database
-        volumes: 
-            - ./server/database
-        ports: 
-            - "5432"
-        environment: 
-            -POSTGRES_USER=pizza
-            -POSTGRES_PASSWORD=pizzapassword
-            
+  database:
+    image: postgres:10-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment: 
+      - POSTGRES_PASSWORD=secret_password
+      - POSTGRES_USER=hyperxpizza
+      - POSTGRES_DB=kernelpanic
+    volumes: 
+      - database-data:/var/lib/postgresql/data/
+    networks: 
+      - default
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    env_file: 
+      - database.env
+    depends_on: 
+      - database
+    networks: 
+      - default
+volumes:
+  database-data:
