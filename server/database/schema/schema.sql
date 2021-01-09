@@ -13,12 +13,15 @@ CREATE TABLE users (
 
 CREATE TABLE posts (
     id SERIAL PRIMARY KEY NOT NULL,
-    authorID INT REFERENCES users(id) UNIQUE (authorID),
+    authorID INT,
     title TEXT NOT NULL,
     subtitle TEXT,
     content TEXT NOT NULL,
     createdAt TIMESTAMP NOT NULL,
-    updatedAt TIMESTAMP NOT NULL
+    updatedAt TIMESTAMP NOT NULL,
+    CONSTRAINT fk_authorID
+        FOREIGN KEY (authorID)
+        REFERENCES users(id)
 );
 
 CREATE TABLE comments (
