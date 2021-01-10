@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hyperxpizza/kernel-panic-blog/server/database"
 	"github.com/hyperxpizza/kernel-panic-blog/server/handlers"
+	"github.com/hyperxpizza/kernel-panic-blog/server/middleware"
 	"github.com/joho/godotenv"
 )
 
@@ -30,7 +31,11 @@ func main() {
 	router.GET("/posts/:id", handlers.GetPost)
 
 	//protected routes
-	//protected := router.Group("/protected")
+	protected := router.Group("/protected")
+	protected.Use(middleware.AuthMiddleware())
+	{
+		protected.GET("/claims", handlers.GetClaims)
+	}
 
 	router.Run(":" + os.Getenv("SERVER_PORT"))
 
