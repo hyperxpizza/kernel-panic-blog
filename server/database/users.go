@@ -3,10 +3,25 @@ package database
 import (
 	"database/sql"
 	"log"
+	"time"
 )
 
 func CheckIfUsernameExists(username string) bool {
 	err := db.QueryRow(`SELECT username FROM users WHERE username = $1`, username).Scan(&username)
+	switch {
+	case err == sql.ErrNoRows:
+		return false
+	case err != nil:
+		log.Fatal(err)
+	default:
+		return true
+	}
+
+	return true
+}
+
+func CheckIfEmailTaken(email string) bool {
+	err := db.QueryRow(`SELECT email FROM users WHERE username = $1`, email).Scan(&email)
 	switch {
 	case err == sql.ErrNoRows:
 		return false
@@ -39,4 +54,25 @@ func GetAdminAndID(username string) (bool, int) {
 	}
 
 	return isAdmin, id
+}
+
+func InsertUser(username, password, email string) error {
+	stmt, err := db.Prepare(`INSERT INTO users VALUES(DEFAULT, $1, $2, $3, $4, $5, $6)`)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	isAdmin := false
+	if username == "hyperxpizza" {
+		isAdmin = true
+	}
+
+	_, err = stmt.Exec(username, password, email, isAdmin, time.Now(), time.Now())
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	return nil
 }

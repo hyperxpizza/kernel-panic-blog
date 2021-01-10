@@ -27,6 +27,7 @@ func main() {
 
 	//unprotected routes
 	router.POST("/login", handlers.Login)
+	router.POST("/register", handlers.Register)
 	router.GET("/posts", handlers.GetAllPosts)
 	router.GET("/posts/:id", handlers.GetPost)
 
