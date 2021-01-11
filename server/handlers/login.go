@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hyperxpizza/kernel-panic-blog/server/database"
@@ -89,4 +90,19 @@ func GetClaims(c *gin.Context) {
 		c.JSON(http.StatusOK, &claims)
 	}
 
+}
+
+func Logout(c *gin.Context) {
+	cookie := &http.Cookie{
+		Name:     "token",
+		Value:    "",
+		Expires:  time.Unix(0, 0),
+		HttpOnly: true,
+	}
+
+	http.SetCookie(c.Writer, cookie)
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "Logged out successfully",
+	})
 }

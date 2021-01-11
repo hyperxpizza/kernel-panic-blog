@@ -19,6 +19,7 @@ CREATE TABLE posts (
     content TEXT NOT NULL,
     createdAt TIMESTAMP NOT NULL,
     updatedAt TIMESTAMP NOT NULL,
+    slug TEXT NOT NULL,
     CONSTRAINT fk_authorID
         FOREIGN KEY (authorID)
         REFERENCES users(id)
