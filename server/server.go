@@ -35,7 +35,7 @@ func main() {
 	protected := router.Group("/protected")
 	protected.Use(middleware.AuthMiddleware())
 	{
-		protected.GET("/claims", handlers.GetClaims)
+		protected.GET("/claims", handlers.GetClaims) //not working
 	}
 
 	router.Run(":" + os.Getenv("SERVER_PORT"))

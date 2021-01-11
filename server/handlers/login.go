@@ -59,9 +59,9 @@ func Login(c *gin.Context) {
 	}
 
 	http.SetCookie(c.Writer, &http.Cookie{
-		Name:     "token",
-		Value:    token,
-		Secure:   true,
+		Name:  "token",
+		Value: token,
+		//Secure:   true,
 		HttpOnly: true,
 	})
 

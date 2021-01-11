@@ -51,7 +51,7 @@ func ExtractClaims(tokenStr string) (jwt.MapClaims, bool) {
 	}
 }
 
-func IsTokenValid(tokenString string) (bool, int, string, bool) {
+func IsTokenValid(tokenString string) (bool, float64, string, bool) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); ok == false {
 			return nil, fmt.Errorf("Token signing method is not valid: %v", token.Header["alg"])
@@ -69,7 +69,7 @@ func IsTokenValid(tokenString string) (bool, int, string, bool) {
 		id := claims["user_id"]
 		username := claims["username"]
 		isAdmin := claims["is_admin"]
-		return true, id.(int), username.(string), isAdmin.(bool)
+		return true, id.(float64), username.(string), isAdmin.(bool)
 	} else {
 		fmt.Printf("The alg header %v \n", claims["alg"])
 		fmt.Println(err)
