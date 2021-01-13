@@ -27,7 +27,6 @@ func main() {
 
 	//unprotected routes
 	router.POST("/login", handlers.Login)
-	router.POST("/logout", handlers.Logout)
 	router.POST("/register", handlers.Register)
 	router.GET("/posts", handlers.GetAllPosts)
 	router.GET("/posts/:id", handlers.GetPost)
@@ -36,7 +35,9 @@ func main() {
 	protected := router.Group("/protected")
 	protected.Use(middleware.AuthMiddleware())
 	{
-		protected.GET("/claims", handlers.GetClaims) //not working
+		protected.POST("/logout", handlers.Logout) //not working
+		protected.GET("/claims", handlers.GetClaims)
+		protected.POST("/post", handlers.CreatePost)
 	}
 
 	router.Run(":" + os.Getenv("SERVER_PORT"))
