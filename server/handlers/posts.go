@@ -3,7 +3,6 @@ package handlers
 import (
 	"database/sql"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gosimple/slug"
@@ -32,19 +31,21 @@ func GetAllPosts(c *gin.Context) {
 }
 
 func GetPost(c *gin.Context) {
-	postID := c.Param("id")
+	slug := c.Param("slug")
 
-	//convert to int
-	postIDInteger, err := strconv.Atoi(postID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"success": false,
-			"message": err.Error(),
-		})
-		return
-	}
+	/*
+		//convert to int
+		postIDInteger, err := strconv.Atoi(postID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"success": false,
+				"message": err.Error(),
+			})
+			return
+		}
+	*/
 
-	post, err := database.GetPostByID(postIDInteger)
+	post, err := database.GetPostBySlug(slug)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(http.StatusBadRequest, gin.H{

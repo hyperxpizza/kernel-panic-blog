@@ -29,7 +29,7 @@ func main() {
 	router.POST("/login", handlers.Login)
 	router.POST("/register", handlers.Register)
 	router.GET("/posts", handlers.GetAllPosts)
-	router.GET("/posts/:id", handlers.GetPost)
+	router.GET("/posts/:slug", handlers.GetPost)
 	//router.GET("/posts/:id/comments")
 	router.POST("/posts/:id/comments", handlers.AddComment)
 

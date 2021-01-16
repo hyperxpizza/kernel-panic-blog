@@ -73,7 +73,7 @@ func GetAllPosts() ([]*models.Post, error) {
 func GetPostByID(postID int) (*models.Post, error) {
 	var post models.Post
 
-	err := db.QueryRow(`SELECT * FROM posts;`).Scan(
+	err := db.QueryRow(`SELECT * FROM posts WHERE id=$1;`, postID).Scan(
 		&post.ID,
 		&post.AuthorID,
 		&post.Tilte,
@@ -88,4 +88,25 @@ func GetPostByID(postID int) (*models.Post, error) {
 	}
 
 	return &post, nil
+}
+
+func GetPostBySlug(slug string) (*models.Post, error) {
+	var post models.Post
+
+	err := db.QueryRow(`SELECT * FROM posts WHERE slug=$1`, slug).Scan(
+		&post.ID,
+		&post.AuthorID,
+		&post.Tilte,
+		&post.Subtitle,
+		&post.Content,
+		&post.CreatedAt,
+		&post.UpdatedAt,
+		&post.Slug,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &post, nil
+
 }
