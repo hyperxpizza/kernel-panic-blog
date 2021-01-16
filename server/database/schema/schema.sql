@@ -31,6 +31,9 @@ CREATE TABLE comments (
     content VARCHAR(1000),
     createdAt TIMESTAMP NOT NULL,
     updatedAt TIMESTAMP NOT NULL,
+    isAdmin BOOLEAN NOT NULL,
+    opEmail VARCHAR(200) NOT NULL,
+    opName VARCHAR(200) NOT NULL,
     CONSTRAINT fk_postID
         FOREIGN KEY (postID)
         REFERENCES posts(id)
