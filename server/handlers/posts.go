@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,11 +17,44 @@ type NewPost struct {
 }
 
 func GetAllPosts(c *gin.Context) {
+	posts, err := database.GetAllPosts()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &posts)
 
 }
 
 func GetPost(c *gin.Context) {
+	postID := c.Param("id")
+	post, err := database.GetPostByID(postID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"succcess": false,
+				"message": "No post with provided id was found"
+			})
+			return
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"success": false,
+				"message": err.Error(),
+			})
+			return
+		}
+	}
 
+	c.JSON(http.StatusOK, gin.H{
+		"success:" true,
+		"post": &post,
+	})
+
+	return
 }
 
 func CreatePost(c *gin.Context) {

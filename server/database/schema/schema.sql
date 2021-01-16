@@ -7,7 +7,8 @@ CREATE TABLE users (
     email TEXT NOT NULL,
     isAdmin BOOLEAN NOT NULL,
     createdAt TIMESTAMP NOT NULL,
-    updatedAt TIMESTAMP NOT NULL
+    updatedAt TIMESTAMP NOT NULL,
+    description TEXT
 );
 
 CREATE TABLE posts (
