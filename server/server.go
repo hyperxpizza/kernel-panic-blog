@@ -30,9 +30,9 @@ func main() {
 	router.POST("/register", handlers.Register)
 	router.GET("/posts", handlers.GetAllPosts)
 	router.GET("/posts/:slug", handlers.GetPost)
-	//router.GET("/posts/:id/comments")
+	router.GET("/posts/:id/comments", handlers.GetComments)
 	router.POST("/posts/:id/comments", handlers.AddComment)
-
+	router.GET("/posts/:id/tags", handlers.GetTags)
 	//protected routes
 	protected := router.Group("/protected")
 	protected.Use(middleware.AuthMiddleware())
@@ -40,6 +40,7 @@ func main() {
 		protected.POST("/logout", handlers.Logout) //not working
 		protected.GET("/claims", handlers.GetClaims)
 		protected.POST("/posts", handlers.CreatePost)
+		protected.POST("/tags", handlers.AddTag)
 	}
 
 	router.Run(":" + os.Getenv("SERVER_PORT"))

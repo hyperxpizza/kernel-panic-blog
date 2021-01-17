@@ -6,4 +6,7 @@ type Comment struct {
 	Content   string `json:"content"`
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at"`
+	IsAdmin   bool   `json:"is_admin"`
+	OPEmail   string `json:"op_email"`
+	OPName    string `json:"op_name"`
 }

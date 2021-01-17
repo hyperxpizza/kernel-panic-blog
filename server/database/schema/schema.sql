@@ -38,3 +38,21 @@ CREATE TABLE comments (
         FOREIGN KEY (postID)
         REFERENCES posts(id)
 );
+
+CREATE TABLE tagmap (
+    id SERIAL PRIMARY KEY NOT NULL,
+    postID INT, 
+    tagID INT,
+    CONSTRAINT fk_postID
+    FOREIGN KEY (postID)
+    REFERENCES posts(id),
+    CONSTRAINT fk_tagID
+    FOREIGN KEY(tagID)
+    REFERENCES tags(id) 
+);
+
+CREATE TABLE tags (
+    id SERIAL PRIMARY KEY NOT NULL,
+    tagName VARCHAR(100) NOT NULL,
+    slug TEXT NOT NULL
+);

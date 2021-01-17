@@ -127,3 +127,11 @@ func CreatePost(c *gin.Context) {
 	})
 
 }
+
+func GetTags(c *gin.Context) {
+
+}
+
+func AddTag(c *gin.Context) {
+
+}
