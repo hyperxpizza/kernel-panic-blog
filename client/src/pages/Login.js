@@ -56,7 +56,7 @@ export default function Login(props){
         axios.post("http://localhost:8888/login", payload)
             .then(response => {
                 if(response.status === 200){
-                    // if response is ok, redirect to admin
+                    console.log(response)
                     props.history.push('/admin');
                 } else {
                     console.log(response);

@@ -56,15 +56,3 @@ export default function Home() {
         </Container>
     );
 }
-
-/*
-<div key={post.id}>
-                    <Link to={{
-                        pathname: `post/${post.slug}`
-                    }} style={{color: 'inherit', textDecoration: 'none'}}>
-                        <h1>{post.title}</h1>
-                    </Link>
-                    <h3>{post.subtitle}</h3>
-                    <TruncateString text={post.content} truncateAt={100} />
-                </div>
-                */
