@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/gin-gonic/contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hyperxpizza/kernel-panic-blog/server/database"
 	"github.com/hyperxpizza/kernel-panic-blog/server/handlers"
@@ -23,16 +22,19 @@ func main() {
 
 	//create router
 	router := gin.Default()
-	router.Use(cors.Default())
+
+	router.Use(CORSMiddleware())
 
 	//unprotected routes
 	router.POST("/login", handlers.Login)
 	router.POST("/register", handlers.Register)
 	router.GET("/posts", handlers.GetAllPosts)
+
 	router.GET("/posts/:slug", handlers.GetPost)
-	router.GET("/posts/:id/comments", handlers.GetComments)
-	router.POST("/posts/:id/comments", handlers.AddComment)
-	router.GET("/posts/:id/tags", handlers.GetTags)
+	router.GET("/post/:id/comments", handlers.GetComments)
+	router.POST("/post/:id/comments", handlers.AddComment)
+	router.GET("/post/:id/tags", handlers.GetTags)
+
 	//protected routes
 	protected := router.Group("/protected")
 	protected.Use(middleware.AuthMiddleware())
@@ -45,4 +47,20 @@ func main() {
 
 	router.Run(":" + os.Getenv("SERVER_PORT"))
 
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }
