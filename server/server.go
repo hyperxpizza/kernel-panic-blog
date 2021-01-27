@@ -33,7 +33,7 @@ func main() {
 	router.GET("/posts/:slug", handlers.GetPost)
 	router.GET("/post/:id/comments", handlers.GetComments)
 	router.POST("/post/:id/comments", handlers.AddComment)
-	router.GET("/post/:id/tags", handlers.GetTags)
+	//router.GET("/post/:id/tags", handlers.GetTags)
 
 	//protected routes
 	protected := router.Group("/protected")

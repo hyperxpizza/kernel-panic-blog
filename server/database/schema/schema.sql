@@ -43,6 +43,8 @@ CREATE TABLE tagmap (
     id SERIAL PRIMARY KEY NOT NULL,
     postID INT, 
     tagID INT,
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL,
     CONSTRAINT fk_postID
     FOREIGN KEY (postID)
     REFERENCES posts(id),
@@ -53,6 +55,8 @@ CREATE TABLE tagmap (
 
 CREATE TABLE tags (
     id SERIAL PRIMARY KEY NOT NULL,
-    tagName VARCHAR(100) NOT NULL,
-    slug TEXT NOT NULL
+    tagName VARCHAR(100) UNIQUE NOT NULL,
+    slug TEXT UNIQUE NOT NULL,
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL
 );
